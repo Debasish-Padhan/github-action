@@ -45,7 +45,7 @@ jobs:
           echo Ref, ${{ github.ref }}
       
       - name: Run production script
-#         if: github.ref_name == 'main'
+        if: github.ref_name == 'v*'
         run: |
           echo Hello, Production!
           echo ---
