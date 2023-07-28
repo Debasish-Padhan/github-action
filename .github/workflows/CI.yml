@@ -32,11 +32,16 @@ jobs:
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
+          
+      - name: Generate App Version Name
+        if: startsWith(github.ref_name, 'v')
+        run: echo "VERSION_NAME=$(git tag -l | cut -c2-)" >> $APP_VERSION
       
       - name: Run production script
         if: startsWith(github.ref_name, 'v')
         run: |
-          echo Hello, Production!
+          echo Hello, Production-${{ env.VERSION_NAME }}!
+          echo Hello, Production-${{ env.APP_VERSION }}!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
