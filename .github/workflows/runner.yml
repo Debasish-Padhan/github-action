@@ -20,6 +20,7 @@ jobs:
 
   runner2:
     runs-on: ubuntu-22.04
+    needs: runner1
     steps:
       - uses: actions/checkout@v3
 
