@@ -17,6 +17,12 @@ jobs:
         run: |
           touch runner1.txt
           echo "Hi runner1" > runner1.txt
+      - name: Temporarily save
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact-file
+          path: /artifacts
+          retention-days: 1
 
   runner2:
     runs-on: ubuntu-22.04
@@ -24,7 +30,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Retrieve saved file
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact-file
+          path: /artifacts
       - name: Print runner1
         run: |
+          cd /artifacts
           ls -ltrh
           cat runner1.txt
