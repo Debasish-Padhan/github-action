@@ -15,14 +15,14 @@ jobs:
 
       - name: Create runner1
         run: |
-          mkdir -p /app/artifacts && cd /app/artifacts
+          mkdir /tmp/artifacts && cd /tmp/artifacts
           touch runner1.txt
           echo "Hi runner1" > runner1.txt
       - name: Temporarily save
         uses: actions/upload-artifact@v2
         with:
           name: artifact-file
-          path: /app/artifacts
+          path: /tmp/artifacts
           retention-days: 1
 
   runner2:
@@ -35,9 +35,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifact-file
-          path: /app/artifacts
+          path: /tmp/artifacts
       - name: Print runner1
         run: |
-          cd /app/artifacts
+          cd /tmp/artifacts
           ls -ltrh
           cat runner1.txt
