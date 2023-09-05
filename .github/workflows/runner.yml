@@ -1,0 +1,29 @@
+name: Runner
+
+on:
+  push:
+    branches:
+      - dummy
+
+  workflow_dispatch:
+
+jobs:
+  runner1:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create runner1
+        run: |
+          touch runner1.txt
+          echo "Hi runner1" > runner1.txt
+
+  runner2:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Print runner1
+        run: |
+          ls -ltrh
+          cat runner1.txt
