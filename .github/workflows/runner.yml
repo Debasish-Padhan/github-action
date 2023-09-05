@@ -15,6 +15,7 @@ jobs:
 
       - name: Create runner1
         run: |
+          mkdir -p /artifacts && cd /artifacts
           touch runner1.txt
           echo "Hi runner1" > runner1.txt
       - name: Temporarily save
