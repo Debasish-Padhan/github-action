@@ -20,12 +20,12 @@ jobs:
       - name: Environment setup
         id: env-setup
         run: |
-          if [ ${{ github.ref_name }} == 'develop' ]]; then
+          if [ "${{ github.ref_name }}" == 'develop' ]]; then
             echo "ASSEMBLE=StageRelease" >> "$GITHUB_OUTPUT"
             echo "FILE=stage" >> "$GITHUB_OUTPUT"
             echo "GROUPS=qa-testers" >> "$GITHUB_OUTPUT"
             echo "RELEASE_NOTE=QA" >> "$GITHUB_OUTPUT"
-          elif [ ${{ github.ref_name }} == 'uat' ]]; then
+          elif [ "${{ github.ref_name }}" == 'uat' ]]; then
             echo "ASSEMBLE=UATRelease" >> "$GITHUB_OUTPUT"
             echo "FILE=uat" >> "$GITHUB_OUTPUT"
             echo "GROUPS=uat-testers" >> "$GITHUB_OUTPUT"
