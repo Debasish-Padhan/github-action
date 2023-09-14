@@ -24,6 +24,16 @@ jobs:
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
+          ENV_DATA=development
+
+      - name: Copy data
+        if: github.ref_name == 'develop'
+        run: |
+          echo Hello, Development!
+          echo ---
+          echo Ref_name, ${{ github.ref_name }}
+          echo Ref, ${{ github.ref }}
+          echo data $ENV_DATA 
       
       - name: Run uat script
         if: github.ref_name == 'uat'
