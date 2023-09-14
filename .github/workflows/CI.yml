@@ -50,7 +50,10 @@ jobs:
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          echo $ASSEMBLE $FILE $GROUPS $RELEASE_NOTE
+          echo ce$ASSEMBLE 
+          echo ce$FILEce123
+          echo ce${{ env.GROUPS }}
+          echo ce${{ env.RELEASE_NOTE }}ce123
       
       - name: Run uat script
         id: uat-script
