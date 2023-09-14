@@ -41,7 +41,7 @@ jobs:
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
           echo $ENV_DATA3 $ENV_DATA1
-          echo new_data $ENV_DATA2
+          echo new_data $NEW_DATA
       
       - name: Run uat script
         if: github.ref_name == 'uat'
