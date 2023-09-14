@@ -16,40 +16,58 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Environment setup
+        id: env-setup
+        run: |
+          if [[ github.ref_name == 'develop' ]]
+          then
+            echo "ASSEMBLE=StageRelease" >> "$GITHUB_OUTPUT"
+            echo "FILE=stage" >> "$GITHUB_OUTPUT"
+            echo "GROUPS=qa-testers" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_NOTE=QA" >> "$GITHUB_OUTPUT"
+          elif [[ github.ref_name == 'uat' ]]
+          then
+            echo "ASSEMBLE=UATRelease" >> "$GITHUB_OUTPUT"
+            echo "FILE=uat" >> "$GITHUB_OUTPUT"
+            echo "GROUPS=uat-testers" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_NOTE=UAT" >> "$GITHUB_OUTPUT"
+          else
+            echo "ASSEMBLE=ProdRelease" >> "$GITHUB_OUTPUT"
+            echo "FILE=prod" >> "$GITHUB_OUTPUT"
+            echo "GROUPS=prod-testers" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_NOTE=PRODUCTION" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Run develop script
         id: develop-script
         if: github.ref_name == 'develop'
-        run: |
-          echo Hello, Development!
-          echo ---
-          echo Ref_name, ${{ github.ref_name }}
-          echo Ref, ${{ github.ref }}
-          echo "ENV_DATA1=development1" >> "$GITHUB_OUTPUT"
-          echo "ENV_DATA2=development2" >> "$GITHUB_OUTPUT"
-          echo "ENV_DATA3=development3" >> "$GITHUB_OUTPUT"
-
-      - name: Copy data
-        if: github.ref_name == 'develop'
         env:
-          ENV_DATA1: ${{ steps.develop-script.outputs.ENV_DATA1 }}
-          ENV_DATA3: ${{ steps.develop-script.outputs.ENV_DATA3 }}
-          NEW_DATA: ${{ steps.develop-script.outputs.ENV_DATA2 }}
+          ASSEMBLE: ${{ steps.env-setup.outputs.ASSEMBLE }}
+          FILE: ${{ steps.env-setup.outputs.FILE }}
+          GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
+          RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
         run: |
           echo Hello, Development!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          echo $ENV_DATA3 $ENV_DATA1
-          echo new_data $NEW_DATA
+          echo $ASSEMBLE $FILE $GROUPS $RELEASE_NOTE
       
       - name: Run uat script
+        id: uat-script
         if: github.ref_name == 'uat'
+        env:
+          ASSEMBLE: ${{ steps.env-setup.outputs.ASSEMBLE }}
+          FILE: ${{ steps.env-setup.outputs.FILE }}
+          GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
+          RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
         run: |
           echo Hello, UAT!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
+          echo $ASSEMBLE $FILE $GROUPS $RELEASE_NOTE
           
       - name: Generate App Version Name
         if: startsWith(github.ref_name, 'v')
