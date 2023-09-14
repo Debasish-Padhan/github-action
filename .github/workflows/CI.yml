@@ -24,7 +24,8 @@ jobs:
             echo "ASSEMBLE=StageRelease" >> "$GITHUB_OUTPUT"
             echo "FILE=stage" >> "$GITHUB_OUTPUT"
             echo "GROUPS=qa-testers" >> "$GITHUB_OUTPUT"
-            echo "RELEASE_NOTE=QA || $(git log -1 --pretty=short)" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_NOTE=QA" >> "$GITHUB_OUTPUT"
+            echo "GIT_LOG=$(git log -1 --pretty=short)" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.ref_name }}" == "uat" ]; then
             echo "ASSEMBLE=UATRelease" >> "$GITHUB_OUTPUT"
             echo "FILE=uat" >> "$GITHUB_OUTPUT"
@@ -45,15 +46,15 @@ jobs:
           FILE: ${{ steps.env-setup.outputs.FILE }}
           GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
           RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
+          GIT_LOG: ${{ steps.env-setup.outputs.GIT_LOG }}
         run: |
           echo Hello, Development!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
           echo ce$ASSEMBLE 
-          echo ce$FILEce123
-          echo ce${{ env.GROUPS }}
-          echo ce${{ env.RELEASE_NOTE }}ce123
+          echo ce${{ env.RELEASE_NOTE }}123
+          echo ${{ env.GIT_LOG }}
       
       - name: Run uat script
         id: uat-script
