@@ -27,61 +27,54 @@ jobs:
             echo "RELEASE_NOTE=QA" >> $GITHUB_ENV
             # echo "GIT_LOG=$(git log -1 --pretty=short)" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.ref_name }}" == "uat" ]; then
-            echo "ASSEMBLE=UATRelease" >> "$GITHUB_OUTPUT"
-            echo "FILE=uat" >> "$GITHUB_OUTPUT"
-            echo "GROUPS=uat-testers" >> "$GITHUB_OUTPUT"
-            echo "RELEASE_NOTE=UAT" >> "$GITHUB_OUTPUT"
+            echo "ASSEMBLE=UATRelease" >> $GITHUB_ENV
+            echo "FILE=uat" >> $GITHUB_ENV
+            echo "GROUPS=uat-testers" >> $GITHUB_ENV
+            echo "RELEASE_NOTE=UAT" >> $GITHUB_ENV
           else
-            echo "ASSEMBLE=ProdRelease" >> "$GITHUB_OUTPUT"
-            echo "FILE=prod" >> "$GITHUB_OUTPUT"
-            echo "GROUPS=prod-testers" >> "$GITHUB_OUTPUT"
-            echo "RELEASE_NOTE=PRODUCTION" >> "$GITHUB_OUTPUT"
+            echo "ASSEMBLE=ProdRelease" >> $GITHUB_ENV
+            echo "FILE=prod" >> $GITHUB_ENV
+            echo "GROUPS=prod-testers" >> $GITHUB_ENV
+            echo "RELEASE_NOTE=PRODUCTION" >> $GITHUB_ENV
           fi
 
       - name: Run develop script
         id: develop-script
         if: github.ref_name == 'develop'
-        # env:
-        #   ASSEMBLE: ${{ steps.env-setup.outputs.ASSEMBLE }}
-        #   FILE: ${{ steps.env-setup.outputs.FILE }}
-        #   GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
-        #   RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
-        #   GIT_LOG: ${{ steps.env-setup.outputs.GIT_LOG }}
         run: |
           echo Hello, Development!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          echo ce$ASSEMBLE 
-          echo ce${{ env.RELEASE_NOTE }}123
+          echo ---
+          echo $ASSEMBLE 
+          echo $FILE
           echo ${{ env.GROUPS }}
+          echo ${{ env.RELEASE_NOTE }}
       
       - name: Run uat script
         id: uat-script
         if: github.ref_name == 'uat'
-        env:
-          ASSEMBLE: ${{ steps.env-setup.outputs.ASSEMBLE }}
-          FILE: ${{ steps.env-setup.outputs.FILE }}
-          GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
-          RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
         run: |
           echo Hello, UAT!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          echo $ASSEMBLE $FILE $GROUPS $RELEASE_NOTE
-          
-      - name: Generate App Version Name
-        if: startsWith(github.ref_name, 'v')
-        run: VERSION_NAME=$(git tag -l | cut -c2-)
+          echo ---
+          echo $ASSEMBLE 
+          echo $FILE
+          echo ${{ env.GROUPS }}
+          echo ${{ env.RELEASE_NOTE }}
       
       - name: Run production script
         if: startsWith(github.ref_name, 'v')
         run: |
-          APP_VERSION=$(git tag -l | cut -c2-)
-          echo Hello, Production-${{ env.VERSION_NAME }}!
-          echo Hello, Production-${{ env.APP_VERSION }}!
-          echo Hello, Production-$(git tag -l | cut -c2-)!
+          echo Hello, Production-$(git tag -l | cut -c2-)
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
+          echo ---
+          echo $ASSEMBLE
+          echo $FILE
+          echo ${{ env.GROUPS }}
+          echo ${{ env.RELEASE_NOTE }}
