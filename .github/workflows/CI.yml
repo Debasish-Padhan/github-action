@@ -36,33 +36,22 @@ jobs:
             echo "FILE=prod" >> $GITHUB_ENV
             echo "GROUPS=prod-testers" >> $GITHUB_ENV
             echo "RELEASE_NOTE=PRODUCTION" >> $GITHUB_ENV
+            echo "VERSION_NAME=$(git tag -l | cut -c2-)" >> $GITHUB_ENV
           fi
 
-      - name: Run develop script
-        id: develop-script
-        if: github.ref_name == 'develop'
+      - name: Run script
+        id: script
+        if:
+          contains('
+            develop
+            uat
+          ', github.ref_name)
         run: |
-          echo Hello, Development!
-          echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
           echo ---
-          echo $ASSEMBLE 
-          echo $FILE
-          echo ${{ env.GROUPS }}
-          echo ${{ env.RELEASE_NOTE }}
-      
-      - name: Run uat script
-        id: uat-script
-        if: github.ref_name == 'uat'
-        run: |
-          echo Hello, UAT!
-          echo ---
-          echo Ref_name, ${{ github.ref_name }}
-          echo Ref, ${{ github.ref }}
-          echo ---
-          echo $ASSEMBLE 
-          echo $FILE
+          echo ${{ env.ASSEMBLE }}
+          echo ${{ env.FILE }}
           echo ${{ env.GROUPS }}
           echo ${{ env.RELEASE_NOTE }}
       
@@ -74,7 +63,8 @@ jobs:
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
           echo ---
-          echo $ASSEMBLE
-          echo $FILE
+          echo ${{ env.ASSEMBLE }}
+          echo ${{ env.FILE }}
           echo ${{ env.GROUPS }}
           echo ${{ env.RELEASE_NOTE }}
+          echo ${{ env.VERSION_NAME }}
