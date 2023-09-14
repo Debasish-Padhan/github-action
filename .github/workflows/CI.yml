@@ -24,7 +24,7 @@ jobs:
             echo "ASSEMBLE=StageRelease" >> "$GITHUB_OUTPUT"
             echo "FILE=stage" >> "$GITHUB_OUTPUT"
             echo "GROUPS=qa-testers" >> "$GITHUB_OUTPUT"
-            echo "RELEASE_NOTE=QA" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_NOTE=QA || $(git log -1 --pretty=short)" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.ref_name }}" == "uat" ]; then
             echo "ASSEMBLE=UATRelease" >> "$GITHUB_OUTPUT"
             echo "FILE=uat" >> "$GITHUB_OUTPUT"
