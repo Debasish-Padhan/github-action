@@ -21,10 +21,10 @@ jobs:
         id: env-setup
         run: |
           if [ "${{ github.ref_name }}" == "develop" ]; then
-            echo "ASSEMBLE=StageRelease
-            FILE=stage
-            GROUPS=qa-testers
-            RELEASE_NOTE=QA" >> "$GITHUB_OUTPUT"
+            echo "ASSEMBLE=StageRelease" >> $GITHUB_ENV
+            echo "FILE=stage" >> $GITHUB_ENV
+            echo "GROUPS=qa-testers" >> $GITHUB_ENV
+            echo "RELEASE_NOTE=QA" >> $GITHUB_ENV
             # echo "GIT_LOG=$(git log -1 --pretty=short)" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.ref_name }}" == "uat" ]; then
             echo "ASSEMBLE=UATRelease" >> "$GITHUB_OUTPUT"
@@ -41,12 +41,12 @@ jobs:
       - name: Run develop script
         id: develop-script
         if: github.ref_name == 'develop'
-        env:
-          ASSEMBLE: ${{ steps.env-setup.outputs.ASSEMBLE }}
-          FILE: ${{ steps.env-setup.outputs.FILE }}
-          GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
-          RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
-          GIT_LOG: ${{ steps.env-setup.outputs.GIT_LOG }}
+        # env:
+        #   ASSEMBLE: ${{ steps.env-setup.outputs.ASSEMBLE }}
+        #   FILE: ${{ steps.env-setup.outputs.FILE }}
+        #   GROUPS: ${{ steps.env-setup.outputs.GROUPS }}
+        #   RELEASE_NOTE: ${{ steps.env-setup.outputs.GROUPS }}
+        #   GIT_LOG: ${{ steps.env-setup.outputs.GIT_LOG }}
         run: |
           echo Hello, Development!
           echo ---
@@ -54,7 +54,7 @@ jobs:
           echo Ref, ${{ github.ref }}
           echo ce$ASSEMBLE 
           echo ce${{ env.RELEASE_NOTE }}123
-          echo ${{ env.GIT_LOG }}
+          echo ${{ env.GROUPS }}
       
       - name: Run uat script
         id: uat-script
