@@ -25,18 +25,23 @@ jobs:
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          echo "ENV_DATA=development" >> "$GITHUB_OUTPUT"
+          echo "ENV_DATA1=development1" >> "$GITHUB_OUTPUT"
+          echo "ENV_DATA2=development2" >> "$GITHUB_OUTPUT"
+          echo "ENV_DATA3=development3" >> "$GITHUB_OUTPUT"
 
       - name: Copy data
         if: github.ref_name == 'develop'
         env:
-          ENV_DATA: ${{ steps.develop-script.outputs.ENV_DATA }}
+          ENV_DATA1: ${{ steps.develop-script.outputs.ENV_DATA1 }}
+          ENV_DATA3: ${{ steps.develop-script.outputs.ENV_DATA3 }}
+          NEW_DATA: ${{ steps.develop-script.outputs.ENV_DATA2 }}
         run: |
           echo Hello, Development!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          echo data $ENV_DATA 
+          echo $ENV_DATA3 $ENV_DATA1
+          echo new_data $ENV_DATA2
       
       - name: Run uat script
         if: github.ref_name == 'uat'
