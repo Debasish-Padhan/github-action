@@ -18,16 +18,19 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Run develop script
+        id: develop-script
         if: github.ref_name == 'develop'
         run: |
           echo Hello, Development!
           echo ---
           echo Ref_name, ${{ github.ref_name }}
           echo Ref, ${{ github.ref }}
-          ENV_DATA=development
+          echo "ENV_DATA=development" >> "$GITHUB_OUTPUT"
 
       - name: Copy data
         if: github.ref_name == 'develop'
+        env:
+          ENV_DATA: ${{ steps.develop-script.outputs.ENV_DATA }}
         run: |
           echo Hello, Development!
           echo ---
