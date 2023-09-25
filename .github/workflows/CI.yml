@@ -26,14 +26,14 @@ jobs:
             echo "GROUPS=qa-testers" >> $GITHUB_ENV
             echo "RELEASE_NOTE=QA" >> $GITHUB_ENV
             git fetch --tags > /dev/null 2>&1
-            echo "VERSION_NAME=$(git tag -l | cut -c2- | tail -1)" >> $GITHUB_ENV
+            echo "VERSION_NAME=$(git tag -l | grep v | cut -c2- | tail -1)" >> $GITHUB_ENV
             # echo "GIT_LOG=$(git log -1 --pretty=short)" >> $GITHUB_ENV
           elif [ "${{ github.ref_name }}" == "uat" ]; then
             echo "ASSEMBLE=UATRelease" >> $GITHUB_ENV
             echo "FILE=uat" >> $GITHUB_ENV
             echo "GROUPS=uat-testers" >> $GITHUB_ENV
             echo "RELEASE_NOTE=UAT" >> $GITHUB_ENV
-            echo "VERSION_NAME=$(git tag -l | cut -c2- | tail -1)" >> $GITHUB_ENV
+            echo "VERSION_NAME=$(git tag -l | grep v | cut -c2- | tail -1)" >> $GITHUB_ENV
           else
             echo "ASSEMBLE=ProdRelease" >> $GITHUB_ENV
             echo "FILE=prod" >> $GITHUB_ENV
