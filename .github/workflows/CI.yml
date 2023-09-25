@@ -26,7 +26,7 @@ jobs:
             echo "GROUPS=qa-testers" >> $GITHUB_ENV
             echo "RELEASE_NOTE=QA" >> $GITHUB_ENV
             git fetch --tags
-            git tag -l | cut -c2-
+            git tag -l | cut -c2- | tail -1
             # echo "VERSION_NAME=$(git tag -l | cut -c2-)" >> $GITHUB_ENV
             # echo "GIT_LOG=$(git log -1 --pretty=short)" >> $GITHUB_ENV
           elif [ "${{ github.ref_name }}" == "uat" ]; then
