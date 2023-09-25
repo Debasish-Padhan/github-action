@@ -25,6 +25,7 @@ jobs:
             echo "FILE=stage" >> $GITHUB_ENV
             echo "GROUPS=qa-testers" >> $GITHUB_ENV
             echo "RELEASE_NOTE=QA" >> $GITHUB_ENV
+            git fetch --tags
             echo "VERSION_NAME=$(git tag -l | cut -c2-)" >> $GITHUB_ENV
             # echo "GIT_LOG=$(git log -1 --pretty=short)" >> $GITHUB_ENV
           elif [ "${{ github.ref_name }}" == "uat" ]; then
