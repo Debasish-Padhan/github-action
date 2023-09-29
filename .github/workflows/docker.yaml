@@ -1,0 +1,36 @@
+name: Docker Image Versioning 
+
+on:
+  push:
+    tags:
+      - docker*
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker pull
+        run: |
+          docker pull alpine:latest
+
+      - name: Docker Login
+        uses: docker/login-action@v3.0.0
+        with:
+          username: dpadhan
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker tag
+        run: |
+          docker tag alpine dpadhan/alpine:$(git tag -l | cut -c7-)
+          docker iamges
+
+      - name: Docker push
+        run: |
+          docker push dpadhan/alpine:$(git tag -l | cut -c7-)
+
+      
