@@ -27,10 +27,8 @@ jobs:
       - name: Docker tag
         run: |
           docker tag alpine dpadhan/alpine:$(git tag -l | cut -c7-)
-          docker images
+          docker images | grep dpadhan
 
       - name: Docker push
         run: |
           docker push dpadhan/alpine:$(git tag -l | cut -c7-)
-
-      
