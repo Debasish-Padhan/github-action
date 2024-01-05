@@ -1,9 +1,9 @@
 name: Update main & Delete pr
 
 on:
-  push:
-    branches:
-      - uat
+  pull_request:
+    branches: ['uat', '!main', '!test', '!develop'] 
+    types: [closed]
 
 jobs:
   update-main:
@@ -20,6 +20,8 @@ jobs:
           source: 'uat'
           target: 'main'
   delete-branch:
+    if: ${{ always() }}
+    needs: [update-main]
     name: delete branch on close pr
     runs-on: ubuntu-latest
     steps:
