@@ -2,11 +2,8 @@ name: Update main & Delete pr
 
 on:
   pull_request:
-    branches:
-      - 'uat'
-      - '!main'
-      - '!develop' 
-    # types: [closed]
+    branches: ['uat']
+    types: [closed]
 
 jobs:
   update-main:
