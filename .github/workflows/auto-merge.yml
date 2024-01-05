@@ -2,12 +2,12 @@ name: Update main & Delete pr
 
 on:
   pull_request:
-    branches: ['uat', '!main', '!test', '!develop'] 
+    branches: ['uat']
     types: [closed]
 
 jobs:
   update-main:
-    name: Merge uat into main after a PR is merged
+    name: Merge uat into main
     runs-on: ubuntu-latest
     steps:
       - name: checkout
