@@ -16,5 +16,5 @@ jobs:
       - name: Merge to Main
         run: |
           git checkout main
-          git merge --no-ff --no-edit staging
+          git merge --no-ff --no-edit uat
           git push origin main
