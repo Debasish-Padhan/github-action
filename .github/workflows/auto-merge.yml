@@ -1,4 +1,4 @@
-name: Merge to Main
+name: Update main
 
 on:
   push:
@@ -6,17 +6,16 @@ on:
       - uat
 
 jobs:
-  merge_to_main:
+  update-main:
+    name: Merge uat into main after a PR is merged
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: checkout
         uses: actions/checkout@v2
-
-      - name: Merge to Main
-        run: |
-          git config --global user.email "dpadhan-c@team.nxlink.com"
-          git config --global user.name "debasishnxlink"
-          git checkout main
-          git merge --no-ff --no-edit uat
-          git push origin main
+      - name: merge
+        uses: mtanzi/action-automerge@v1
+        id: merge
+        with:
+          github_token: ${{ github.token }}
+          source: 'uat'
+          target: 'main'
