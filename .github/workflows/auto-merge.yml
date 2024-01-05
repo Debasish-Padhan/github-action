@@ -1,4 +1,4 @@
-name: Update main
+name: Update main & Delete pr
 
 on:
   push:
@@ -19,8 +19,11 @@ jobs:
           github_token: ${{ github.token }}
           source: 'uat'
           target: 'main'
-      - name: Delete closed PR branch
-        uses: dawidd6/action-delete-branch@v3
-        with:
-          github_token: ${{ github.token }}
-          numbers: ${{github.event.pull_request.number}}
+  delete-branch:
+    name: delete branch on close pr
+    runs-on: ubuntu-latest
+    steps:
+      - name: delete branch
+        uses: SvanBoxel/delete-merged-branch@main
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
