@@ -1,0 +1,21 @@
+name: Merge to Main
+
+on:
+  push:
+    branches:
+      - uat
+
+jobs:
+  merge_to_main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Merge to Main
+        run: |
+          git fetch origin
+          git checkout main
+          git merge --no-ff --no-edit uat
+          git push origin main
