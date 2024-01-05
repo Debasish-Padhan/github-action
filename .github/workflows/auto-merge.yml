@@ -3,7 +3,9 @@ name: Update main & Delete pr
 on:
   push:
     branches:
-      - uat
+      - uat 
+  pull_request:
+    types: [closed]
 
 jobs:
   update-main:
