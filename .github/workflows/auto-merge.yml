@@ -10,7 +10,7 @@ jobs:
     name: Merge uat into main
     runs-on: ubuntu-latest
     outputs:
-      deploy-status: ${{ steps.check.outputs.triggered }}
+      deploy-status: ${{ steps.merge.outputs.triggered }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
