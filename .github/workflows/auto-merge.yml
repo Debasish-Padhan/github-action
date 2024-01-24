@@ -20,7 +20,7 @@ jobs:
           source: 'uat'
           target: 'main'
     outputs:
-      success: ${{ step.success }}  
+      success: ${{ steps.success }}  
   
   delete-branch:
     needs: update-main
