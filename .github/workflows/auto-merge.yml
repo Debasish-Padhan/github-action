@@ -9,8 +9,6 @@ jobs:
   update-main:
     name: Merge uat into main
     runs-on: ubuntu-latest
-    outputs:
-      deploy-status: ${{ steps.merge.outputs.triggered }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -21,11 +19,14 @@ jobs:
           github_token: ${{ github.token }}
           source: 'uat'
           target: 'main'
+    outputs:
+      success: ${{ step.success }}  
+  
   delete-branch:
-    needs: [update-main]
+    needs: update-main
     name: delete branch on close pr
     runs-on: ubuntu-latest
-    if: needs.update-main.outputs.deploy-status == 'true'
+    if: needs.update-main.outputs.success == true
     steps:
       - name: delete branch
         uses: SvanBoxel/delete-merged-branch@main
